@@ -1,0 +1,37 @@
+TERMS OF USE AND LEGAL DISCLAIMER
+
+1. DEFINITIONS
+
+A. "Team" refers to the group of people running and operating Apps.
+
+B. "Website" refers to the website called Apps that is run and operated by Team.
+
+C. "Website Operator" refers to any member of the Team with administrative access to the Website.
+
+D. "User" refers to any legal entity using the Website.
+
+E. "Data" refers to any information processed, inputted, or stored in a form readable by a device.
+
+F. "User Content" refers to any text, images, or other similar material uploaded or inputted to Apps.
+
+
+2. DISCLAIMER OF LIABILITY FOR USER-GENERATED CONTENT
+
+A. Decentralized Local Storage: You acknowledge that this Website's data is completely stored on your local device. Any data inputted is stored directly on your device and not sent to any server.
+
+B. Complete Absence of Control: All data stays on your device, so the Website Operator has no control over any hyperlinks or destinations that you might input. The Website Operator cannot monitor or review anything inputted into this Website.
+
+C. Exclusion of Liability: You have complete responsibility for anything that you create. The Website Operator should not be held liable for any malicious or illegal content that is inputted by the User.
+
+
+3. DATA RETENTION AND DISCLAIMER OF DATA LOSS
+
+A. Local Data Maintenance: Because this Website runs entirely on your local device, the Website Operator has no backups of any data that is saved.
+
+B. Risk of Permanent Deletion: You understand that your data is stored completely on your local device. Any of your saved information can be deleted under various conditions including but not limited to:
+* Clearing browser cache, history, or cookies.
+* Automatic data deletion from the browser or operating system.
+* Using a private browsing method (such as Incognito mode), automatically deletes data after closing the session.
+* Damage to the device.
+
+C. No Recovery Services: There is no mechanism to recover any lost or deleted information. The Website Operator should not be held responsible for any inconveniences regarding loss of saved data.

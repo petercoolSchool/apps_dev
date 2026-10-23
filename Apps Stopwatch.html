@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+<meta charset = "UTF-8">
+<meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+<title>Apps Stopwatch</title>
+<style>
+#stopwatch{
+	height: 220px;
+	width: 220px;
+	border: 5px solid black;
+	border-radius: 50%;
+	position: relative;
+}
+/*-------REMOVE WHEN ADDED*/
+#stopwatch{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.timerHand{
+	height: 130px;
+	width: 2px;
+	border-radius: 2px;
+	background: black;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(0, -80%);
+	transform-origin: top;
+	transition: transform 0.3s;
+}
+#secHand{
+	background: red;
+}
+#hrHand{
+	height: 100px;
+}
+#startTimer{
+	position: absolute;
+	left: 50%;
+	top: calc(50% + 150px);
+	translate: -50% -50%;
+	height: 40px;
+	width: 200px;
+	border-radius: 21px;
+	border: none;
+	cursor: pointer;
+	background: #25f452e0;
+	letter-spacing: 2px;
+	font-size: 15px;
+	transition: 0.5s background, 0.5s left, 0.5s width;
+}
+#startTimer.timerActive{
+	background: #ffa500e0;
+	width: 150px;
+	left: calc(50% + 25px);
+}
+#restartTimer{
+	width: 40px;
+	height: 40px;
+	position: absolute;
+	left: calc(50% - 80px);
+	top: calc(50% + 150px);
+	translate: -50% -50%;
+	border-radius: 21px;
+	border: none;
+	cursor: pointer;
+	background: #ff0000e0;
+	opacity: 0;
+	pointer-events: none;
+	transition: 0.5s left, 0.5s opacity;
+}
+</style>
+<script>
+let timerOn = false;
+let timerInterval;
+let hr=0, min=0, sec=0;
+function startTimer(){
+	timerOn = true;	
+	timerInterval = setInterval(()=>{
+		if(timerOn){
+			sec += 0.1;
+			if(sec >= (min+1)*60){min+=1};
+			if(min >= (hr+1)*60){hr+=1};
+			document.getElementById('secHand').style.transform = `rotate(${sec*6}deg) translate(0, -80%)`;
+			document.getElementById('minHand').style.transform = `rotate(${min*6}deg) translate(0, -80%)`;
+			document.getElementById('hrHand').style.transform = `rotate(${hr*6}deg) translate(0, -80%)`;
+		}
+	}, 100)
+}
+function hideStartTimerElm(){
+	let startTimerElm = document.getElementById('startTimer')
+	startTimerElm.style.background = "#ff0000e0"
+	startTimerElm.innerText = 'Stop';
+	startTimerElm.setAttribute('onclick', 'stopTimer()')
+	document.getElementById('restartTimer').style.opacity = '0';
+	document.getElementById('restartTimer').style.setProperty('pointer-events', 'none');
+	startTimerElm.style.width = '';
+	startTimerElm.style.left = '';
+	startTimerElm.classList.remove('timerActive')
+}
+function startTimerClicked(){
+	let startTimerElm = document.getElementById('startTimer')
+	startTimerElm.innerText = 'Pause';
+	startTimerElm.classList.add('timerActive')
+	startTimerElm.setAttribute('onclick', 'pauseTimer()');
+	document.getElementById('restartTimer').style.opacity = '1';
+	document.getElementById('restartTimer').style.setProperty('pointer-events', 'auto');
+	startTimer();
+}
+function pauseTimer(){
+	timerOn = false;
+	document.getElementById('startTimer').innerText = 'Resume'
+	document.getElementById('startTimer').setAttribute('onclick', 'resumeTimer()');
+}
+function resumeTimer(){
+	timerOn = true;
+	document.getElementById('startTimer').innerText = 'Pause'
+	document.getElementById('startTimer').setAttribute('onclick', 'pauseTimer()');
+}
+function resetStartTimerElm(){
+	let startTimerElm = document.getElementById('startTimer')
+	startTimerElm.style.background = ""
+	startTimerElm.innerText = 'Start';
+	startTimerElm.setAttribute('onclick', 'startTimerClicked()')
+	startTimerElm.style.width = '';
+	startTimerElm.style.left = '';
+	startTimerElm.classList.remove('timerActive')
+}
+function restartTimer(){
+	document.getElementById('restartTimer').style.opacity = '0';
+	document.getElementById('restartTimer').style.setProperty('pointer-events', 'none');
+	resetStartTimerElm();
+	clearInterval(timerInterval);
+}
+</script>
+</head>
+<body>
+	<div id="stopwatch">
+		<div id="secHand" class="timerHand"></div>
+		<div id="minHand" class="timerHand"></div>
+		<div id="hrHand" class="timerHand"></div>
+		<p id="timeOut"></p>
+	</div>
+	<button id="startTimer" onclick="startTimerClicked()">Start</button>
+	<button id="restartTimer" onclick="restartTimer()">↺</button>
+</body>
+</html>

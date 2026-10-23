@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>App maker</title>
+<style>
+body{
+	background: linear-gradient(45deg, #1ed245, white);
+	background-repeat: no-repeat;
+	min-height: calc(100dvh - 20px);
+	margin: 0;
+	padding: 10px;
+}
+a#output:hover{
+	box-shadow: 0 4px 8px 0 rgba(10, 0, 0, 0.2), 0 6px 20px 0 rgba(10, 0, 0, 0.19);
+}
+a#output{
+	color: var(--TextColor);
+	background-color: unset;
+	text-decoration: none;
+	text-align: center;
+	border: 1px solid;
+	border-color: light-dark(black, white);
+	border-radius: 15px;
+	height: 33vh;
+	aspect-ratio: 1 / 1.32;
+	min-height: 120px;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	min-width: 107px;
+	cursor: pointer;
+	box-shadow: none;
+	transition: box-shadow 0.3s;
+}
+a#output> b{
+	max-width: 25vw;
+	margin-top: auto;
+	overflow-wrap: break-word;
+}
+a#output *:not(b){
+	margin-top: 15%;
+	width: 85%;
+	aspect-ratio: 1 / 1;
+}
+
+
+.tools{
+	border-top: 5px solid black;
+	height: 50vh;
+	width: 100%;
+	margin-top: 10px;
+	padding-top: 10px;
+}
+#outText, #outShell{
+	display: inline-block;
+}
+#outText{
+	position: absolute;
+	width: -webkit-fill-available;
+	height: calc(33vh - 10px);
+}
+#outText, #form > input, .toolButton{
+	background: transparent;
+	border: 2px solid black;
+	border-radius: 20px;
+	margin: 5px;
+	padding: 5px;
+	backdrop-filter: contrast(1.2);
+	outline: none;
+}
+#form > input{
+	transition: backdrop-filter 0.8s;
+}
+#form > input:focus{
+	backdrop-filter: contrast(2);
+}
+.toolButton{
+	cursor: pointer;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+.toolIframe{
+	opacity: 0;
+	pointer-events: none;
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	top: 0;
+	left: 0;
+	transform: scale(0);
+	transform-origin: 100% 100%;
+	transition: opacity 0.5s, transform 0.5s;
+}
+.toolIframe.show{
+	transform: scale(1);
+	pointer-events: auto;
+	opacity: 1;
+}
+#hideTools{
+	display: none;
+	position: absolute;
+	top: 8px;
+	left: 8px;
+	width: 50px;
+	height: 50px;
+	border-radius: 26px;
+	border: 1px solid black;
+	background: #ffffff50;
+	backdrop-filter: blur(3px);
+	cursor: pointer;
+}
+.toolIframe.show + #hideTools{
+	display: block;
+}
+.fixURL{
+	opacity: 1;
+	pointer-events: auto;
+	transition: 0.8s opacity;
+}
+.hideFixURL{
+	opacity: 0;
+	pointer-events: none;
+}
+</style>
+<script>
+function makeApp(){
+	let url = document.getElementById('appURL').value;
+	let name = document.getElementById('appName').value;
+	let image = document.getElementById('appImg').value;
+	let output = document.getElementById('output');
+
+	let validURL = true
+	if(!(url || name || image)){return;}
+	if(!url.includes('http')){validURL=false}
+	
+	output.href=url;
+	output.querySelector('img').src = image;
+	output.querySelector('img').alt = name;
+	output.querySelector('b').innerText = name;
+
+	let outText = document.getElementById('outText');
+	let outputText = document.getElementById('outShell').outerHTML;
+	outputText = outputText.replace(' id="outShell"', '');
+	outputText = outputText.replace(' id="output"', '');
+	outText.value = outputText;
+
+	if(!validURL){document.querySelector('.fixURL').classList.remove('hideFixURL')}else{document.querySelector('.fixURL').classList.add('hideFixURL')}
+}
+function hideTools(){
+	document.querySelectorAll('.toolIframe.show').forEach((elm)=>{elm.classList.remove('show')})
+}
+</script>
+</head>
+<body>
+	<div id="outShell">
+	<a id="output" target="_blank">
+		<img src="" alt="">
+		<br>
+		<b></b>
+	</a>
+	</div>
+	<textarea id="outText"></textarea>
+	<div class="tools">
+		<form id="form" onsubmit="return false;" oninput="makeApp()">
+			<input type="text" id="appURL" placeholder="URL">
+			<input type="button" class="fixURL hideFixURL" onclick="document.getElementById('appURL').value='https://'+document.getElementById('appURL').value; this.classList.add('hideFixURL');" value="Your URL seems to be incomplete, do you want to fix it?">
+			<br>
+			<input type="text" id="appName" placeholder="Name">
+			<br>
+			<input type="text" id="appImg" placeholder="Data URI">
+		</form>
+		<br>
+		<br>
+		<button onclick="document.getElementById('svgViewer').classList.add('show')" class="toolButton">Show SVG Editor</button>
+	</div>
+	<iframe src="https://svgviewer.dev" class="toolIframe" id="svgViewer" allow="clipboard-write *;"></iframe>
+	<button onclick="hideTools()" id="hideTools">X</button>
+</body>
+</html>
